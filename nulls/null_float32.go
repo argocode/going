@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
+	"encoding/xml"
 	"strconv"
 )
 
@@ -62,4 +63,17 @@ func (ns *NullFloat32) UnmarshalJSON(text []byte) error {
 	j := float32(i)
 	ns.Float32 = j
 	return nil
+}
+
+// UnmarshalXML will unmarshal an XML value into
+// the proper representation of that value
+func (ns *NullFloat32) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	ns.Valid = true
+	for _, attr := range start.Attr {
+		if attr.Name.Local == "nil" {
+			ns.Valid = false
+			break
+		}
+	}
+	return d.DecodeElement(&ns.Float32, &start)
 }

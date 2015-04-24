@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
+	"encoding/xml"
 )
 
 // NullBool replaces sql.NullBool with an implementation
@@ -64,4 +65,17 @@ func (ns *NullBool) UnmarshalJSON(text []byte) error {
 	ns.Bool = false
 	ns.Valid = false
 	return nil
+}
+
+// UnmarshalXML will unmarshal an XML value into
+// the proper representation of that value
+func (ns *NullBool) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	ns.Valid = true
+	for _, attr := range start.Attr {
+		if attr.Name.Local == "nil" {
+			ns.Valid = false
+			break
+		}
+	}
+	return d.DecodeElement(&ns.Bool, &start)
 }

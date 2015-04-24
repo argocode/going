@@ -3,6 +3,7 @@ package nulls
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"encoding/xml"
 	"time"
 )
 
@@ -59,4 +60,17 @@ func (ns *NullTime) UnmarshalJSON(text []byte) error {
 	}
 
 	return err
+}
+
+// UnmarshalXML will unmarshal an XML value into
+// the proper representation of that value
+func (ns *NullTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	ns.Valid = true
+	for _, attr := range start.Attr {
+		if attr.Name.Local == "nil" {
+			ns.Valid = false
+			break
+		}
+	}
+	return d.DecodeElement(&ns.Time, &start)
 }

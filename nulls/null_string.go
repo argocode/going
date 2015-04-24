@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
+	"encoding/xml"
 )
 
 // NullString replaces sql.NullString with an implementation
@@ -56,4 +57,17 @@ func (ns *NullString) UnmarshalJSON(text []byte) error {
 		ns.Valid = true
 	}
 	return err
+}
+
+// UnmarshalXML will unmarshal an XML value into
+// the proper representation of that value
+func (ns *NullString) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	ns.Valid = true
+	for _, attr := range start.Attr {
+		if attr.Name.Local == "nil" {
+			ns.Valid = false
+			break
+		}
+	}
+	return d.DecodeElement(&ns.String, &start)
 }
