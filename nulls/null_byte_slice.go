@@ -20,6 +20,12 @@ func NewNullByteSlice(b []byte) NullByteSlice {
 	return NullByteSlice{ByteSlice: b, Valid: true}
 }
 
+// NewNullByteSlicePtr returns a pointer to a new, properly instantiated
+// NullByteSlice object.
+func NewNullByteSlicePtr(b []byte) *NullByteSlice {
+	return &NullByteSlice{ByteSlice: b, Valid: true}
+}
+
 // Scan implements the Scanner interface.
 func (ns *NullByteSlice) Scan(value interface{}) error {
 	n := sql.NullString{String: base64.StdEncoding.EncodeToString(ns.ByteSlice)}

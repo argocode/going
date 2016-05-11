@@ -15,9 +15,15 @@ type NullBool struct {
 }
 
 // NewNullBool returns a new, properly instantiated
-// NullBoll object.
+// NullBool object.
 func NewNullBool(b bool) NullBool {
 	return NullBool{Bool: b, Valid: true}
+}
+
+// NewNullBoolPtr returns a pointer to a new, properly instantiated
+// NullBool object.
+func NewNullBoolPtr(b bool) *NullBool {
+	return &NullBool{Bool: b, Valid: true}
 }
 
 // Scan implements the Scanner interface.

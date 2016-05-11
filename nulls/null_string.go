@@ -17,6 +17,12 @@ func NewNullString(s string) NullString {
 	return NullString{String: s, Valid: true}
 }
 
+// NewNullStringPtr returns a pointer to a new, properly instantiated
+// NullString object.
+func NewNullStringPtr(s string) *NullString {
+	return &NullString{String: s, Valid: true}
+}
+
 // Scan implements the Scanner interface.
 func (ns *NullString) Scan(value interface{}) error {
 	n := sql.NullString{String: ns.String}

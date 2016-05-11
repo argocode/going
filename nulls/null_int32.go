@@ -21,6 +21,12 @@ func NewNullInt32(i int32) NullInt32 {
 	return NullInt32{Int32: i, Valid: true}
 }
 
+// NewNullInt32Ptr returns a pointer to a new, properly instantiated
+// NullInt object.
+func NewNullInt32Ptr(i int32) *NullInt32 {
+	return &NullInt32{Int32: i, Valid: true}
+}
+
 // Scan implements the Scanner interface.
 func (ns *NullInt32) Scan(value interface{}) error {
 	n := sql.NullInt64{Int64: int64(ns.Int32)}

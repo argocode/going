@@ -20,6 +20,12 @@ func NewNullTime(t time.Time) NullTime {
 	return NullTime{Time: t, Valid: true}
 }
 
+// NewNullTime returns a pointer to a new, properly instantiated
+// NullTime object.
+func NewNullTimePtr(t time.Time) *NullTime {
+	return &NullTime{Time: t, Valid: true}
+}
+
 // Scan implements the Scanner interface.
 func (ns *NullTime) Scan(value interface{}) error {
 	ns.Time, ns.Valid = value.(time.Time)

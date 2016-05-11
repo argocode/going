@@ -18,6 +18,12 @@ func NewNullFloat64(i float64) NullFloat64 {
 	return NullFloat64{Float64: i, Valid: true}
 }
 
+// NewNullFloat64Ptr returns a pointer to a new, properly instantiated
+// NullFloat64 object.
+func NewNullFloat64Ptr(i float64) *NullFloat64 {
+	return &NullFloat64{Float64: i, Valid: true}
+}
+
 // Scan implements the Scanner interface.
 func (ns *NullFloat64) Scan(value interface{}) error {
 	n := sql.NullFloat64{Float64: ns.Float64}
